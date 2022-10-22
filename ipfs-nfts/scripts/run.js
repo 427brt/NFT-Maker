@@ -1,29 +1,25 @@
-//run.js
-
-const main = async() => {
-  //コントラクトがコンパイル
-  // コントラクトを扱うために必要なファイルが `artifacts` ディレクトリの直下に生成
+// run.js
+const main = async () => {
+  // コントラクトがコンパイルします
+  // コントラクトを扱うために必要なファイルが `artifacts` ディレクトリの直下に生成されます。
   const nftContractFactory = await hre.ethers.getContractFactory("Web3Mint");
-  //hardhatがローカルのethereumネットワークを生成
+  // Hardhat がローカルの Ethereum ネットワークを作成します。
   const nftContract = await nftContractFactory.deploy();
-  //コントラクトがmintされ、ローカルのブロックチェーンにデプロイされるのを待つ
+  // コントラクトが Mint され、ローカルのブロックチェーンにデプロイされるまで待ちます。
   await nftContract.deployed();
   console.log("Contract deployed to:", nftContract.address);
 
-  // makeAnEpicNFT関数を呼び出す NFTがmintされる
-  let txn = await nftContract.makeAnEpicNFT();
-  //mintingが仮装マイナーにより承認されるのを待つ
+  let txn = await nftContract.mintIpfsNFT("virgil","bafybeifd2fovg4ytkaye4jsabjy6fs2q7rti6te6kwzx3i6fyzplxbcy7y");
   await txn.wait();
-  txn = await nftContract.makeAnEpicNFT();
-  await txn.wait();
+  let returnedTokenUri = await nftContract.tokenURI(0);
+  console.log("tokenURI:",returnedTokenUri);
 };
-
-//エラー処理
-const runMain = async() => {
+// エラー処理を行っています。
+const runMain = async () => {
   try {
     await main();
     process.exit(0);
-  } catch(error){
+  } catch (error) {
     console.log(error);
     process.exit(1);
   }
