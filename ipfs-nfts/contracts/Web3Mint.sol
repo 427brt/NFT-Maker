@@ -15,12 +15,12 @@ contract Web3Mint is ERC721URIStorage {
         string imageURL;
     }
 
-    NftAttributes[] Web3Nfts;
-
     // OpenZeppelin が tokenIds を簡単に追跡するために提供するライブラリを呼び出しています
     using Counters for Counters.Counter;
     // _tokenIdsを初期化
     Counters.Counter private _tokenIds;
+
+    NftAttributes[] Web3Nfts;
 
     // NFT トークンの名前とそのシンボルを渡します。
     constructor() ERC721("SimpNFT", "SIMP") {
@@ -57,7 +57,7 @@ contract Web3Mint is ERC721URIStorage {
                         Web3Nfts[_tokenId].name,
                         " -- NFT #: ",
                         Strings.toString(_tokenId),
-                        '", "description": "An epic NFT", "image": "ifps://',
+                        '", "description": "An epic NFT", "image": "ipfs://',
                         Web3Nfts[_tokenId].imageURL,
                         '"}'
                     )
